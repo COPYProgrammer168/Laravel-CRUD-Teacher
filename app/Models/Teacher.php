@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Teacher extends Model
+{
+    use HasFactory;
+
+    protected $table = 'tbl_teacher';
+
+    protected $primaryKey = 'tid';
+
+    protected $fillable = [
+        'full_name',
+        'gender',
+        'degree',
+        'tel'
+    ];
+}
