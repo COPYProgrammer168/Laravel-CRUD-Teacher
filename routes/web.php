@@ -1,21 +1,29 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AppointmentController;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-// Route::get('/products/create/', [ProductController::class, 'create'])->name('products.create');
-// Route::delete('/products/{pid}', [ProductController::class, 'destroy'])->name('products.destroy');
-// Route::post('/products/', [ProductController::class, 'store'])->name('products.store');
-// Route::get('/products/{pid}/edit/', [ProductController::class, 'edit'])->name('products.edit');
-// Route::put('/products/{pid}', [ProductController::class, 'update'])->name('products.update');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('/products', ProductController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-Route::resource('/teachers', TeacherController::class);
+    Route::resource('/products', ProductController::class);
+    Route::resource('/customers', CustomerController::class);
+    Route::resource('/appointments', AppointmentController::class);
+
+});
+
+require __DIR__ . '/auth.php';
